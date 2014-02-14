@@ -37,3 +37,4 @@ nosetests.xml
 
 
 localsettings.py
+example/secret.py

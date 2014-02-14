@@ -21,6 +21,9 @@ def main_api_method():
 	if request_data.invalid:
 		return 'parameters are invalid', 500
 	
+	if not request_data.signature_is_valid(app.config['SECRET']):
+		return 'forbidden', 403
+	
 	try:
 		fetch_response = fetch.url(request_data.url, app.config['FETCH_TIMEOUT'])
 	except:

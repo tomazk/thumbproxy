@@ -1,3 +1,4 @@
 LOG_DIR = '/path/to/logdir'
 DEBUG = True
 FETCH_TIMEOUT = 30
+SECRET = '' # perhaps use ./bin/generate_secret.sh
