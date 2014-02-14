@@ -3,6 +3,8 @@ Thumbnail Proxy
 
 lazy and seamless generation of thumbnails
 
+*dirty but fun hackday project at Zemanta*
+
 Setup
 -----
 
