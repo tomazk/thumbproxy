@@ -2,8 +2,10 @@ import os
 import logging
 
 from flask import Flask
+from flask import make_response
 
 from thumbproxy.request_data import RequestData
+from thumbproxy import fetch
 
 app = Flask(__name__)
 
@@ -16,8 +18,19 @@ def main_api_method():
 	request_data = RequestData()
 	if request_data.invalid:
 		return 'parameters are invalid', 500
+	
+	try:
+		fetch_response = fetch.url(request_data.url, app.config['FETCH_TIMEOUT'])
+		content_type = fetch_response.info().gettype()
+	except:
+		return 'not found', 404
+	
+	
+	
+	response = make_response(fetch_response.read())
+	response.headers['Content-Type'] =  content_type
 
-	return 'ok', 200
+	return response
 
 
 # Configuration
