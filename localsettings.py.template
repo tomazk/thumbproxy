@@ -1,0 +1,3 @@
+LOG_DIR = '/path/to/logdir'
+DEBUG = True
+
