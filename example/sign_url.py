@@ -1,5 +1,3 @@
-#!/usr/local/bin/python
-
 import secret
 import hashlib
 import urlparse
@@ -12,6 +10,6 @@ Out[3]: ParseResult(scheme='http', netloc='localhost:5000', path='/api/', params
 
 url = sys.argv[1]
 parsed = urlparse.urlparse(url)
-signature = hashlib.sha256(parsed.query + secret) 
+signature = hashlib.sha256(parsed.query + secret.SECRET).hexdigest()
 print parsed.scheme + '://' + parsed.netloc + parsed.path + '?' + parsed.query + '&s=' + signature
 

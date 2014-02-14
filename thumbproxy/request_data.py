@@ -43,7 +43,7 @@ class RequestData(object):
 	def signature_is_valid(self, secret):
 		return self.signature == generate_signature_from_query_string(request.query_string, secret)
 
-re_SIG = re.compile('&s=[a-Z0.9]+$')
+re_SIG = re.compile('&s=[a-z0-9]+$')
 
 def generate_signature_from_query_string(query_string, secret):
 		query_string = re_SIG.sub('', query_string)
