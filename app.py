@@ -1,11 +1,13 @@
 import os
 import logging
+import traceback
 
 from flask import Flask
 from flask import make_response
 
 from thumbproxy.request_data import RequestData
 from thumbproxy import fetch
+from thumbproxy import thumbnail
 
 app = Flask(__name__)
 
@@ -21,14 +23,18 @@ def main_api_method():
 	
 	try:
 		fetch_response = fetch.url(request_data.url, app.config['FETCH_TIMEOUT'])
-		content_type = fetch_response.info().gettype()
 	except:
 		return 'not found', 404
 	
+	try:
+		thumbnail_image = thumbnail.create(fetch_response, request_data)
+	except Exception, e:
+		traceback.print_exc()
+		app.logger.error('error when creating thumbnail: %s', repr(e))
+		return 'error', 500
 	
-	
-	response = make_response(fetch_response.read())
-	response.headers['Content-Type'] =  content_type
+	response = make_response(thumbnail_image)
+	response.headers['Content-Type'] =  'image/jpeg'
 
 	return response
 

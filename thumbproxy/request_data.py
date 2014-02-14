@@ -19,8 +19,10 @@ class RequestData(object):
 	
 	def __init__(self):
 		self.url = request.values.get('u', None)
-		logger.debug('url: %s', self.url)
-		
+		self.action = request.values.get('a', None)
+		self.width = request.values.get('w', None, type=int)
+		self.height = request.values.get('h', None, type=int)
+		self.signature = request.values.get('s', None) 
 		
 		try:
 			self._validate_request_params()
@@ -28,9 +30,14 @@ class RequestData(object):
 		except Exception, e:
 			logger.error('params not validated: %s', repr(e))
 			self.invalid = True
+			
+		logger.debug('request_data params: %s', repr(self.__dict__))
 		
 	def _validate_request_params(self):
 		assert re_URL.match(self.url)
+		assert self.action  in ('thumb', 'crop')
+		assert isinstance(self.width, int)
+		assert isinstance(self.height, int)
 		
 		
 		
